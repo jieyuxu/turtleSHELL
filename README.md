@@ -7,6 +7,6 @@
 3.   
 
 
-function headers
+#function headers
 char * parse()
 void exec(char* command)
