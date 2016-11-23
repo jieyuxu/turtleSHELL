@@ -7,7 +7,7 @@
 int main() {
   while(1){
     char buf[50];
-    printf("what's good:\n");
+    printf("> ");
     //  printf("Enter commands separated by a single space: "); 
 
     fgets(buf, sizeof(buf), stdin);
@@ -25,7 +25,11 @@ int main() {
     *strchr(buf, "\n") = NULL;
     for (i; command[i] = strsep(&buffadd, " "); i++);
     command[i] = 0;
-
+    
+    if (!(strcmp(command[0],"exit"))){
+      exit(0);
+    }
+    
     int pid = fork();
     if (pid == 0){
       execvp( command[0], command );
