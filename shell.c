@@ -9,7 +9,7 @@ int main() {
 
 char * parse(){
   char buf[100];
-  printf("Enter command separated by a single space"); 
+  printf("Enter commands separated by a single space: "); 
   fgets(buf, sizeof(buf), stdin);
   char * bufadd = buf;
   char *command[50];
