@@ -17,7 +17,7 @@ char * parse(){
     command[i] = strsep(&bufadd," ");
     i++;
   }
-  command[i] = 0;
+  comman
   return command;
 }
 
