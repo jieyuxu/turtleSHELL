@@ -4,6 +4,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <ctype.h>
+#include <limits.h>
 
 int cd(char *pth){
     int BUFFERSIZE=50;
@@ -46,15 +47,34 @@ char *trim(char *str)
 int main() {
   while(1){
     char buf[50];
-    printf("> ");
+    char getcd[50];
+    char hostname[50];
+    if (gethostname(hostname, sizeof(hostname)) == -1)
+      printf("%s ", getcwd(getcd, sizeof(getcd)));
+    else
+      printf("%s %s$ ", getcwd(getcd, sizeof(getcd)), getenv("USER"));
     //  printf("Enter commands separated by a single space: "); 
 
     fgets(buf, sizeof(buf), stdin);
     char * bufadd = buf;
-    bufadd = strsep(&bufadd, "\n");
     char *command[20];
-
     int i=0;
+
+    if (strstr(bufadd, ";")){
+      while(bufadd = strsep(&bufadd, ";")){
+          bufadd = trim(bufadd);
+          int saved_stdout;
+          int saved_stdin;
+          for (i; command[i] = strsep(&bufadd, " "); i++);
+          command[i] = 0;
+          if (!(strcmp(command[0],"exit"))){
+            exit(0);
+    }
+      }
+    }
+    else
+      bufadd = strsep(&bufadd, "\n");
+
     int first=1;
     int out=0;
     char *rest = buf;
