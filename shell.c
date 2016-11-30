@@ -44,6 +44,13 @@ char *trim(char *str)
   return str;
 }
 
+char * readin(){
+  char buf[50];
+  fgets(buf, sizeof(buf), stdin);
+  char * bufadd = buf;
+  return bufadd;
+}
+
 int main() {
   while(1){
     char buf[50];
@@ -56,25 +63,9 @@ int main() {
     //  printf("Enter commands separated by a single space: "); 
 
     fgets(buf, sizeof(buf), stdin);
-    char * bufadd = buf;
+    char * bufadd = readin();
     char *command[20];
     int i=0;
-
-    if (strstr(bufadd, ";")){
-      while(bufadd = strsep(&bufadd, ";")){
-          bufadd = trim(bufadd);
-          int saved_stdout;
-          int saved_stdin;
-          for (i; command[i] = strsep(&bufadd, " "); i++);
-          command[i] = 0;
-          if (!(strcmp(command[0],"exit"))){
-            exit(0);
-    }
-      }
-    }
-    else
-      bufadd = strsep(&bufadd, "\n");
-
     int first=1;
     int out=0;
     char *rest = buf;
