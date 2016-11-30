@@ -27,38 +27,29 @@ char *trim(char *str)
   return str;
 }
 
-char * readin(){
-	char buf[50];
-	//printf("what's good:\n");
-	fgets(buf, sizeof(buf), stdin);	
-	char * bufadd = (char *)malloc(sizeof(buf));
-	bufadd = buf;
-	bufadd = strsep(&bufadd, "\n");
-	//printf("%s", bufadd);
-	return bufadd;
+void readin(char * buf){
+	fgets(buf, 50, stdin);	
+	*(strchr(buf, '\n')) = '\0';
 }
 
 
-char * parse(char * input){
+void parse(char ** cmd, char * buf){
   int i = 0;
-  char * command[20];
-  input = trim(input);
-  for (i; command[i] = strsep(&input, " "); i++);
-  command[i] = 0;
-  //char * ret = command;
-  printf("command: %s\n", command);
- // printf("ret: %s\n", *ret);
-  return *command;
+  buf = trim(buf);
+  //printf("buf: %s\n", buf);
+  for (i; cmd[i] = strsep(&buf, " "); i++);
+  cmd[i] = 0;
 }
 
+void exec(char ** cmd){
+	execvp(cmd[0], cmd);
+}
 
 int main(){
-  // char buf[50];
-  // fgets(buf, sizeof(buf), stdin);
-  // char * bufadd = buf;
-  // parse(bufadd);
-  
-  //execvp(bufadd[0], bufadd);
-	printf("hi: %s", readin());
+	char buf[50];
+	char * command[20];
+	readin(buf);
+	parse(command, buf);
+	exec(command);
 	return 0;
 }
