@@ -44,11 +44,13 @@ char *trim(char *str)
   return str;
 }
 
-char * readin(){
-  char buf[50];
-  fgets(buf, sizeof(buf), stdin);
-  char * bufadd = buf;
-  return bufadd;
+char * parse(char * input){
+  int i;
+  char * command[20];
+  input = trim(input);
+  for (i; command[i] = strsep(&input, " "); i++);
+    command[i] = 0;
+  return command;
 }
 
 int main() {
@@ -63,11 +65,10 @@ int main() {
     //  printf("Enter commands separated by a single space: "); 
 
     fgets(buf, sizeof(buf), stdin);
-    char * bufadd = readin();
+    char * bufadd = buf;
     char *command[20];
     int i=0;
     int first=1;
-    int out=0;
     char *rest = buf;
    // *strchr(buf, "\n") = NULL;
     char  *sin, *sout;
