@@ -42,7 +42,10 @@ void parse(char ** cmd, char * buf){
 }
 
 void exec(char ** cmd){
+  if (strcmp(cmd[0], "exit") == 0)
+    exit(0);
 	execvp(cmd[0], cmd);
+
 }
 
 int main(){
