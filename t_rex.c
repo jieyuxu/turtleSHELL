@@ -6,6 +6,12 @@
 #include <ctype.h>
 #include <limits.h>
 #include "t_rex.h"
+
+/*
+T-REX:
+Trim-Readin-Execute
+*/
+
 /*
 Trim gets rid of the trailing and front spaces
 */
@@ -47,6 +53,10 @@ void parse(char ** cmd, char * buf){
   //printf("buf: %s\n", buf);
   for (i; cmd[i] = strsep(&buf, " "); i++);
   cmd[i] = 0;
+}
+
+void scparse(char ** store, char * buf){
+  
 }
 
 void exec(char** cmd, int fdin, int fdout){
