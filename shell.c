@@ -36,9 +36,6 @@ int main() {
       printf("%s %s$ ", getcwd(getcd, sizeof(getcd)), getenv("USER"));
     //  printf("Enter commands separated by a single space: "); 
 
-    fgets(buf, sizeof(buf), stdin);
-    char * bufadd = buf;
-    char *command[20];
     int i=0;
     int first=1;
     char *rest = buf;
@@ -86,37 +83,5 @@ int main() {
     } 
     
     bufadd = trim(bufadd);
-    int saved_stdout;
-    int saved_stdin;
-    for (i; command[i] = strsep(&bufadd, " "); i++);
-    command[i] = 0;
-    if (!(strcmp(command[0],"exit"))){
-      exit(0);
-    }
-    char directories[30];
-    if (!(strcmp(command[0],"cd"))){
-      char* location = strchr(command[1], '\n');
-      strcpy(directories, command[1]);
-      cd(directories);
-    }    
-    else {
-        
-        if(fdin != -1){
-            saved_stdin = dup(0);
-            dup2(fdin, 0);
-        }
-        if(fdout!= -1) {
-            saved_stdout = dup(1);
-            dup2(fdout, 1);
-        }
-
-        int pid = fork();
-        if (pid == 0)
-           execvp( command[0], command );
-        else
-           wait(NULL);
-        dup2(saved_stdout, 1);
-        dup2(saved_stdin, 0);
-   }
   }
 }
