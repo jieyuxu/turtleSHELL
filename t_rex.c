@@ -89,6 +89,6 @@ int main(){
 	char * command[20];
 	readin(buf);
 	parse(command, buf);
-	exec(buf, command);
+	exec(command, fdin, fdout);
 	return 0;
 }
