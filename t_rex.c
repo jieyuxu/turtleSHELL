@@ -49,18 +49,46 @@ void parse(char ** cmd, char * buf){
   cmd[i] = 0;
 }
 
-void exec(char ** cmd){
-  if (strcmp(cmd[0], "exit") == 0)
-    exit(0);
-	execvp(cmd[0], cmd);
+void exec(char** cmd, int fdin, int fdout){
+    int saved_stdout;
+    int saved_stdin;
+    if (!(strcmp(cmd[0],"exit"))){
+      exit(0);
+    }
+    char directories[30];
+    if (!(strcmp(cmd[0],"cd"))){
+      char* location = strchr(cmd[1], '\n');
+      strcpy(directories, cmd[1]);
+      cd(directories);
+    }    
+    else {
+        
+        if(fdin != -1){
+            saved_stdin = dup(0);
+            dup2(fdin, 0);
+        }
+        if(fdout!= -1) {
+            saved_stdout = dup(1);
+            dup2(fdout, 1);
+        }
 
+        int pid = fork();
+        if (pid == 0)
+           execvp( cmd[0], cmd );
+        else
+           wait(NULL);
+        dup2(saved_stdout, 1);
+        dup2(saved_stdin, 0);
+   }
+  }
 }
+
 
 int main(){
 	char buf[50];
 	char * command[20];
 	readin(buf);
 	parse(command, buf);
-	exec(command);
+	exec(buf, command);
 	return 0;
 }
