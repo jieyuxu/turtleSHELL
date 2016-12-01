@@ -80,12 +80,6 @@ void redirect(char * rest){
   } 
 }
 
-/*
-PIPE
-*/
-void pipe(char * buf){
-  
-}
 
 int main() {
   while(1){

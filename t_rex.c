@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <limits.h>
 #include "t_rex.h"
+#include "shell.h"
 
 /*
 T-REX:
@@ -15,6 +16,33 @@ Trim-Readin-Execute
 /*
 Trim gets rid of the trailing and front spaces
 */
+void prompt(){
+  char getcd[50];
+  char hostname[50];
+  if (gethostname(hostname, sizeof(hostname)) == -1)
+    printf("%s ", getcwd(getcd, sizeof(getcd)));
+  else
+    printf("%s %s$ ", getcwd(getcd, sizeof(getcd)), getenv("USER"));
+}
+
+int cd(char *pth){
+    int BUFFERSIZE=256;
+    char path[BUFFERSIZE];
+    strcpy(path,pth);
+
+    char cwd[BUFFERSIZE];
+    if(pth[0] != '/')
+    {// true for the dir in cwd
+        getcwd(cwd,sizeof(cwd));
+        strcat(cwd,"/");
+        strcat(cwd,path);
+        chdir(cwd);
+    }else{//true for dir w.r.t. /
+        chdir(pth);
+    }
+    return 0;
+}
+
 char *trim(char *str)
 {
   char *end;
@@ -39,7 +67,7 @@ char *trim(char *str)
 Readin modifies a char * array and fills it with the input from fgets
 */
 void readin(char * buf){
-	fgets(buf, 50, stdin);	
+	fgets(buf, 256, stdin);	
 	*(strchr(buf, '\n')) = '\0';
 }
 
@@ -48,61 +76,69 @@ Parse trims the buf, getting rid of any unneccessary space between and after and
 the given char ** cmd, filling it with the input from buf
 */
 void parse(char ** cmd, char * buf){
+  char * new = (char *)malloc(256);
+  new = strsep(&buf, ";");
+
   int i = 0;
   buf = trim(buf);
+  if (new){
+    trim(new);
+    for (i; cmd[i] = strsep(&new, " "); i++);
+    cmd[i] = 0;
+    exec(cmd, -1, -1);
+  }
+
+  i = 0;
   //printf("buf: %s\n", buf);
   for (i; cmd[i] = strsep(&buf, " "); i++);
   cmd[i] = 0;
-}
-
-void scparse(char ** store, char * buf){
-  int i = 0;
-  buf = trim(buf);
-  //taking all the different commands and storing them into arrays
-  for (i; store[i] = trim(strsep(&buf, ";")); i++);
-  store[i] = 0;
+  exec(cmd, -1, -1);
 }
 
 void exec(char** cmd, int fdin, int fdout){
     int saved_stdout;
     int saved_stdin;
-    if (!(strcmp(cmd[0],"exit"))){
-      exit(0);
-    }
     char directories[30];
+
+    if (!(strcmp(cmd[0],"exit")))
+      exit(0);
+    
     if (!(strcmp(cmd[0],"cd"))){
       char* location = strchr(cmd[1], '\n');
       strcpy(directories, cmd[1]);
       cd(directories);
-    }    
-    else {
-        
-        if(fdin != -1){
-            saved_stdin = dup(0);
-            dup2(fdin, 0);
-        }
-        if(fdout!= -1) {
-            saved_stdout = dup(1);
-            dup2(fdout, 1);
-        }
+    }   
 
-        int pid = fork();
-        if (pid == 0)
-           execvp( cmd[0], cmd );
-        else
-           wait(NULL);
-        dup2(saved_stdout, 1);
-        dup2(saved_stdin, 0);
+    else {
+      if(fdin != -1){
+          saved_stdin = dup(0);
+          dup2(fdin, 0);
+      }
+      if(fdout!= -1) {
+          saved_stdout = dup(1);
+          dup2(fdout, 1);
+      }
+
+      int pid = fork();
+      if (pid == 0)
+         execvp( cmd[0], cmd );
+      else
+         wait(NULL);
+      dup2(saved_stdout, 1);
+      dup2(saved_stdin, 0);
    }
-  }
 }
 
 
 int main(){
-	char buf[50];
-	char * command[20];
-	readin(buf);
-	parse(command, buf);
-	exec(command, fdin, fdout);
-	return 0;
+  while(1){
+    int fdin, fdout;
+    fdin = fdout = -1;
+  	char buf[256];
+  	char * command[20];
+    prompt();
+  	readin(buf);
+  	parse(command, buf);
+  }
+  return 0;
 }
