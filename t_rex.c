@@ -44,14 +44,14 @@ int cd(char *pth){
     return 0;
 }
 
-char *trim(char *str){
+void trim(char *str){
   char *end;
 
   // Trim leading space
   while(isspace((unsigned char)*str)) str++;
 
   if(*str == 0)  // All spaces?
-    return str;
+    return;
 
   // Trim trailing space
   end = str + strlen(str) - 1;
@@ -60,7 +60,6 @@ char *trim(char *str){
   // Write new null terminator
   *(end+1) = 0;
 
-  return str;
 }
 
 /*
@@ -81,7 +80,7 @@ void parse(char ** cmd, char * buf){
   new = strsep(&buf, ";");
   printf("WHERE DID YOU BREAK4\n");
   int i = 0;
-  buf = trim(buf);
+  trim(buf);
   printf("WHERE DID YOU BREAK6\n");
   //if multiple
   if (new){
