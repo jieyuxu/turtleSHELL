@@ -5,6 +5,7 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <limits.h>
+
 #include "t_rex.h"
 #include "shell.h"
 
@@ -43,8 +44,7 @@ int cd(char *pth){
     return 0;
 }
 
-char *trim(char *str)
-{
+char *trim(char *str){
   char *end;
 
   // Trim leading space
@@ -77,11 +77,15 @@ the given char ** cmd, filling it with the input from buf
 */
 void parse(char ** cmd, char * buf){
   char * new = (char *)malloc(256);
+  printf("WHERE DID YOU BREAK5\n");
   new = strsep(&buf, ";");
-
+  printf("WHERE DID YOU BREAK4\n");
   int i = 0;
   buf = trim(buf);
+  printf("WHERE DID YOU BREAK6\n");
+  //if multiple
   if (new){
+    printf("WHERE DID YOU BREAK\n");
     trim(new);
     for (i; cmd[i] = strsep(&new, " "); i++);
     cmd[i] = 0;
@@ -89,10 +93,12 @@ void parse(char ** cmd, char * buf){
   }
 
   i = 0;
-  //printf("buf: %s\n", buf);
+  //just one command
   for (i; cmd[i] = strsep(&buf, " "); i++);
   cmd[i] = 0;
   exec(cmd, -1, -1);
+  printf("WHERE DID YOU BREAK2\n");
+  free(new);
 }
 
 void exec(char** cmd, int fdin, int fdout){
@@ -127,18 +133,4 @@ void exec(char** cmd, int fdin, int fdout){
       dup2(saved_stdout, 1);
       dup2(saved_stdin, 0);
    }
-}
-
-
-int main(){
-  while(1){
-    int fdin, fdout;
-    fdin = fdout = -1;
-  	char buf[256];
-  	char * command[20];
-    prompt();
-  	readin(buf);
-  	parse(command, buf);
-  }
-  return 0;
 }

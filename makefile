@@ -1,16 +1,19 @@
 GCC = gcc -g
 
-all: shell.o trex.o
-	$(GCC) shell.o trex.o -o shell.out
+all: shell.o t_rex.o main.o
+	$(GCC) shell.o t_rex.o main.o -o shell.out
 
 shell.o: shell.c shell.h
-	$(GCC) shell.c
+	$(GCC) -c shell.c
 
-trex.o: t_rex.c t_rex.h
-	$(GCC) t_rex.c
+t_rex.o: t_rex.c t_rex.h
+	$(GCC) -c t_rex.c
 
+main.o: main.c shell.c t_rex.c
+	$(GCC) -c main.c
 run: 
 	./shell.out
 
 clean:
 	rm -rf *~
+	rm -rf *.o
