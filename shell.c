@@ -49,24 +49,29 @@ REDIRECTION USING <
 //         if (first && sin != NULL && sout==NULL){
 //         // only input
 //             bufadd = strsep(&rest , "<");
-//             fin = trim(rest);
+//             trim(rest);
+//             fin = rest;
 //         }
 //         if (first && sin == NULL && sout!=NULL){
 //         // only output
 //             bufadd = strsep(&rest , ">");
-//             fout = trim(rest);   
+//             trim(rest);
+//             fout = rest;
 //         }
 //         if (sin != NULL && sout!=NULL)
 //             bufadd = strsep(&rest , "<>");         
 //         if (!first && sin != NULL && sout==NULL){
 //         // > < 
 //             fout = trim(strsep(&rest , "<"));
-//             fin = trim(rest);
+//             trim(rest);
+//             fin = rest;
 //         }
 //         // < >
 //         if ( !first && sin == NULL && sout!=NULL){
 //             fin = strsep(&rest , ">");
-//             fout = rest;            
+//             trim(rest);
+//             fout = rest;
+
 //         }
 //         first = 0;
 
@@ -80,6 +85,6 @@ REDIRECTION USING <
 //        }       
 //     } 
     
-//     bufadd = trim(bufadd);
+//     trim(bufadd);
 //   }
 // }
