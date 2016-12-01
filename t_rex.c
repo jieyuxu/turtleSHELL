@@ -56,7 +56,11 @@ void parse(char ** cmd, char * buf){
 }
 
 void scparse(char ** store, char * buf){
-  
+  int i = 0;
+  buf = trim(buf);
+  //taking all the different commands and storing them into arrays
+  for (i; store[i] = trim(strsep(&buf, ";")); i++);
+  store[i] = 0;
 }
 
 void exec(char** cmd, int fdin, int fdout){
