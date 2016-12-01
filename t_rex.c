@@ -5,8 +5,10 @@
 #include <fcntl.h>
 #include <ctype.h>
 #include <limits.h>
-
-
+#include "t_rex.h"
+/*
+Trim gets rid of the trailing and front spaces
+*/
 char *trim(char *str)
 {
   char *end;
@@ -27,12 +29,18 @@ char *trim(char *str)
   return str;
 }
 
+/*
+Readin modifies a char * array and fills it with the input from fgets
+*/
 void readin(char * buf){
 	fgets(buf, 50, stdin);	
 	*(strchr(buf, '\n')) = '\0';
 }
 
-
+/*
+Parse trims the buf, getting rid of any unneccessary space between and after and then modifies
+the given char ** cmd, filling it with the input from buf
+*/
 void parse(char ** cmd, char * buf){
   int i = 0;
   buf = trim(buf);
