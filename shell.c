@@ -25,6 +25,28 @@ int cd(char *pth){
     return 0;
 }
 
+/*
+REDIRECTION USING >
+
+*/
+void rightRD(char * buf){
+
+}
+
+/*
+REDIRECTION USING <
+*/
+void leftRD(char * buf){
+
+}
+
+/*
+PIPE
+*/
+void pipe(char * buf){
+
+}
+
 int main() {
   while(1){
     char buf[50];
