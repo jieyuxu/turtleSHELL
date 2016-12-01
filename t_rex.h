@@ -2,8 +2,8 @@
 #define T_REX
 
 int cd(char *pth);
-char * trim();
-void readin();
+void trim(char *str);
+void readin(char *buf);
 void parse(char ** cmd, char * buf);
 void exec(char ** cmd, int fdin, int fdout);
 
